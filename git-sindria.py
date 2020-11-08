@@ -205,14 +205,14 @@ def find_config_by_key(key):
 
 # Clone multi projects by group slug path
 def clone(target):
-    if not os.path.exists(BASE_PATH + '/' + target):
-        os.makedirs(BASE_PATH + '/' + target)
-
     group = find_group_by_slug(target)
 
     if (group == None):
         print('No match ' + target + ', please check if exist and try again')
         sys.exit(1)
+
+    if not os.path.exists(BASE_PATH + '/' + target):
+        os.makedirs(BASE_PATH + '/' + target)
 
     projects = fetch_projects_group(group['id'])
 
