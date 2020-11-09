@@ -1,5 +1,7 @@
-cello:
-	python -m compileall git-sindria.py
+git-sindria:
+	python3 -m compileall -f git-sindria.py
+	#python3 -m compileall -f -d bin -b git-sindria.py
 
 clean:
-	rm git-sindria.pyc
+	rm -rf __pycache__
+	#rm git-sindria.pyc
