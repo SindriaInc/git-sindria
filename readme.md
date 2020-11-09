@@ -39,3 +39,7 @@ If you don't have a token goto under your gitlab profile and generate personal a
 - Create empty repo
 - Create repo bootstrap framework
 - Create repo bootstrap sindria template with CI/CD
+
+## License
+
+This software is release open source under [GPLV2](LICENSE) license.
