@@ -1,4 +1,5 @@
-git-sindria:
+build:
+	pip install -r requirements.txt
 	python3 -m compileall -f git-sindria.py
 	#python3 -m compileall -f -d bin -b git-sindria.py
 
@@ -11,7 +12,9 @@ install:
 	chmod +x /usr/local/bin/git-sindria
 
 clean:
-	rm -rf /opt/git-sindria
-	rm -f /usr/local/bin/git-sindria
 	rm -rf __pycache__
 	#rm git-sindria.pyc
+
+uninstall:
+	rm -rf /opt/git-sindria
+	rm -f /usr/local/bin/git-sindria
