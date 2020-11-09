@@ -11,17 +11,14 @@ Git extension client for gitlab.
 # we have no source, so nothing here
 
 %build
-cat > hello-world.sh <<EOF
-#!/usr/bin/bash
-echo Hello world
-EOF
+make
 
 %install
 mkdir -p %{buildroot}/usr/bin/
-install -m 755 hello-world.sh %{buildroot}/usr/bin/hello-world.sh
+install -m 755 __pycache__/*.pyc %{buildroot}/usr/bin/git-sindria
 
 %files
-/usr/bin/hello-world.sh
+/usr/bin/git-sindria
 
 %changelog
 # let's skip this for now
