@@ -227,7 +227,6 @@ def fetch_user_by_username(username):
         'username': data[0]['username'],
         'avatar': data[0]['avatar_url'],
         'web': data[0]['web_url']
-        #'is_admin': data[0]['is_admin']
     }
 
     return user
