@@ -248,7 +248,7 @@ def find_config_by_key(key):
             return entry[key]
     return False
 
-# Clone multi projects by group slug path
+# Clone multi projects by top level group slug path or username
 def clone(target):
 
     if (target == USER):
@@ -305,10 +305,19 @@ def clone(target):
     print('task complete')
     sys.exit(0)
 
+# Clear local cached repos by top level group slug or username
+def clear(target):
+    if os.path.exists(BASE_PATH + '/' + target):
+        subprocess.call(['rm', '-Rf', BASE_PATH + '/' + target])
+    print('task complete')
+    sys.exit(0)
+
 def main(command, target):
 
     if (command == 'clone'):
         clone(target)
+    elif (command == 'clear'):
+        clear(target)
     else:
         print('command not found')
         sys.exit(0)
