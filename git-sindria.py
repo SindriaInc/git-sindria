@@ -307,8 +307,11 @@ def clone(target):
 
 # Clear local cached repos by top level group slug or username
 def clear(target):
-    if os.path.exists(BASE_PATH + '/' + target):
-        subprocess.call(['rm', '-Rf', BASE_PATH + '/' + target])
+    if not os.path.exists(BASE_PATH + '/' + target):
+        print('No match ' + target + ', please check if exist and try again')
+        sys.exit(1)
+        
+    subprocess.call(['rm', '-Rf', BASE_PATH + '/' + target])
     print('task complete')
     sys.exit(0)
 
