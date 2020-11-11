@@ -8,8 +8,9 @@ install:
 	mkdir -p /opt/git-sindria
 	cp __pycache__/*.pyc /opt/git-sindria/git-sindria.pyc
 	chmod +x /opt/git-sindria/git-sindria.pyc
-	cp git-sindria.sh /usr/local/bin/git-sindria
-	chmod +x /usr/local/bin/git-sindria
+	cp git-sindria.sh /opt/git-sindria
+	chmod +x /opt/git-sindria/git-sindria.sh
+	ln -s /opt/git-sindria/git-sindria.sh /usr/local/bin/git-sindria
 
 clean:
 	rm -rf __pycache__
