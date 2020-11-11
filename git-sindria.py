@@ -11,6 +11,8 @@ import datetime
 BASE_PATH = ''
 URL = ''
 TOKEN = ''
+USER = ''
+EMAIL = ''
 
 # Parse git config into dict
 def config():
@@ -94,6 +96,31 @@ def get_projects(page):
     response = request.json()
     return response
 
+# Get all users data
+def get_users():
+    url = '{0}/api/v4/users'.format(URL)
+    headers = {'PRIVATE-TOKEN': TOKEN}
+    request = requests.get(url, headers=headers)
+    response = request.json()
+    return response
+
+# Get user data by username
+def get_user(username):
+    url = '{0}/api/v4/users?username={1}'.format(URL, username)
+    headers = {'PRIVATE-TOKEN': TOKEN}
+    request = requests.get(url, headers=headers)
+    response = request.json()
+    return response
+
+# Get user projects by user id
+def get_user_projects(id):
+    batch_size = 100
+    url = '{0}/api/v4/users/{1}/projects?per_page={2}'.format(URL, id, batch_size)
+    headers = {'PRIVATE-TOKEN': TOKEN}
+    request = requests.get(url, headers=headers)
+    response = request.json()
+    return response
+
 # Fetch groups git data
 def fetch_groups():
     data = dict()
@@ -139,10 +166,13 @@ def fetch_subgroups(id):
 
     return data
 
-# Fetch projects of a group by group id
-def fetch_projects_group(id):
+# Fetch projects of a group by group id or projects of a user if passed as second argument
+def fetch_projects_group_or_user(id, username = None):
     data = dict()
-    projects = get_projects_group(id)
+    if (username == None):
+        projects = get_projects_group(id)
+    else:
+        projects = get_user_projects(id)
 
     i = 0
     for value in projects:
@@ -187,6 +217,21 @@ def fetch_projects():
 
     return data
 
+# Fetch specific user git data by username
+def fetch_user_by_username(username):
+    data = get_user(username)
+
+    user = {
+        'id': data[0]['id'],
+        'name': data[0]['name'],
+        'username': data[0]['username'],
+        'avatar': data[0]['avatar_url'],
+        'web': data[0]['web_url'],
+        'is_admin': data[0]['is_admin']
+    }
+
+    return user
+
 # Find group by slug path
 def find_group_by_slug(slug):
     match = None
@@ -205,16 +250,24 @@ def find_config_by_key(key):
 
 # Clone multi projects by group slug path
 def clone(target):
-    group = find_group_by_slug(target)
 
-    if (group == None):
-        print('No match ' + target + ', please check if exist and try again')
-        sys.exit(1)
+    if (target == USER):
+        user = fetch_user_by_username(USER)
+        id = user['id']
+        projects = fetch_projects_group_or_user(id, user['username'])
+    else:
+        group = find_group_by_slug(target)
 
+        if (group == None):
+            print('No match ' + target + ', please check if exist and try again')
+            sys.exit(1)
+
+        id = group['id']
+        projects = fetch_projects_group_or_user(id)
+
+    # Create directories if not exists
     if not os.path.exists(BASE_PATH + '/' + target):
         os.makedirs(BASE_PATH + '/' + target)
-
-    projects = fetch_projects_group(group['id'])
 
     for k,project in projects.items():
 
@@ -224,7 +277,11 @@ def clone(target):
 
         subprocess.call(['git', 'clone', project['ssh'], BASE_PATH + '/' + target + '/' + project['path']])
 
-    subgroups = fetch_subgroups(group['id'])
+    if (target == USER):
+        print('No support subgroups for personal projects, done')
+        sys.exit(0)
+
+    subgroups = fetch_subgroups(id)
 
     if (len(subgroups) == 0):
         print('there\'s no subproject for this target, done')
@@ -235,7 +292,7 @@ def clone(target):
         if not os.path.exists(BASE_PATH + '/' + target + '/' + subgroup['path']):
             os.makedirs(BASE_PATH + '/' + target + '/' + subgroup['path'])
 
-        projects_group = fetch_projects_group(subgroup['id'])
+        projects_group = fetch_projects_group_or_user(subgroup['id'])
 
         for k,project_group in projects_group.items():
 
@@ -274,6 +331,8 @@ if __name__ == '__main__':
     BASE_PATH = find_config_by_key('sindria.path')
     URL = find_config_by_key('sindria.url')
     TOKEN = find_config_by_key('sindria.token')
+    USER = find_config_by_key('user.name')
+    EMAIL = find_config_by_key('user.email')
 
     command = sys.argv[1]
     target = sys.argv[2]
