@@ -30,16 +30,17 @@ If you don't have a token goto under your gitlab profile and generate personal a
 
 ## Usage
 
-- Multi clone by top level group: `git sindria clone <group>`
+- Multi clone by top level group or username: `git sindria clone <group-or-username>`
 
 ## Coming soon
 
-- Destroy local repo cached by group
+- Destroy local repo cached by group or username
 - Get info about repos, groups and subgroups with stats
 - Get git url ssh/https for clone specific repo
 - Create empty repo
 - Create repo bootstrap framework
 - Create repo bootstrap sindria template with CI/CD
+- Gitlab admin
 
 ## License
 
