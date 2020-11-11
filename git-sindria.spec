@@ -3,6 +3,8 @@ Version:    1.0.0
 Release:    1
 Summary:    Git extension client for gitlab
 License:    GPLv2
+BuildArch:  noarch
+Requires:   python3-requests, python3-pyyaml
 
 %description
 Git extension client for gitlab.
