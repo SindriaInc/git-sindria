@@ -11,14 +11,23 @@ Git extension client for gitlab.
 # we have no source, so nothing here
 
 %build
-make /home/sindria/Projects/Sindria/devops/tools/git-sindria
+git clone https://github.com/SindriaInc/git-sindria.git
+cd git-sindria
+rm -Rf .git
+make
 
 %install
-mkdir -p %{buildroot}/usr/bin/
-install -m 755 /home/sindria/Projects/Sindria/devops/tools/git-sindria/__pycache__/*.pyc %{buildroot}/usr/bin/git-sindria
+mkdir -p %{buildroot}/usr/local/bin
+mkdir -p %{buildroot}/opt/
+mkdir -p %{buildroot}/opt/git-sindria
+install -m 755 __pycache__/*.pyc %{buildroot}/opt/git-sindria/git-sindria.pyc
+install -m 755 git-sindria.sh %{buildroot}/opt/git-sindria/git-sindria.sh
+install -m 755 git-sindria.sh %{buildroot}/usr/local/bin/git-sindria
 
 %files
-/usr/bin/git-sindria
+/opt/git-sindria/git-sindria.pyc
+/opt/git-sindria/git-sindria.sh
+/usr/local/bin/git-sindria
 
 %changelog
 # let's skip this for now
