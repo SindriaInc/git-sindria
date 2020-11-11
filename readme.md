@@ -11,6 +11,7 @@ Git extension client for gitlab.
 Make sure you have `make` package installed.
 
 - Clone this repo: `git clone https://github.com/SindriaInc/git-sindria.git`
+- Move into it: `cd git-sindria`
 - Build package: `make`
 - Install package: `sudo make install`
 - Clean build cache: `make clean`
