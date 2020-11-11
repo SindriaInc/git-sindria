@@ -310,7 +310,7 @@ def clear(target):
     if not os.path.exists(BASE_PATH + '/' + target):
         print('No match ' + target + ', please check if exist and try again')
         sys.exit(1)
-        
+
     subprocess.call(['rm', '-Rf', BASE_PATH + '/' + target])
     print('task complete')
     sys.exit(0)
