@@ -31,10 +31,10 @@ If you don't have a token goto under your gitlab profile and generate personal a
 ## Usage
 
 - Multi clone by top level group or username: `git sindria clone <group-or-username>`
+- Clear local cached repos by top level group or username: `git sindria clear <group-or-username>`
 
 ## Coming soon
 
-- Destroy local repo cached by group or username
 - Get info about repos, groups and subgroups with stats
 - Get git url ssh/https for clone specific repo
 - Create empty repo
