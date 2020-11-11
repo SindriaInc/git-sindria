@@ -8,7 +8,7 @@ Git extension client for gitlab.
 
 ## Install RedHat/Fedora/CentOS
 
-- Download rpm package: `wget https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-1.0.0-1.x86_64.rpm`
+- Download rpm package: [git-sindria](https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-1.0.0-1.x86_64.rpm)
 - Install with package manager: `sudo dnf install git-sindria-1.0.0-1.x86_64.rpm`
 
 ## Uninstall RedHat/Fedora/CentOS
