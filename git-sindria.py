@@ -11,6 +11,7 @@ import datetime
 BASE_PATH = ''
 URL = ''
 TOKEN = ''
+PROVIDER = ''
 USER = ''
 EMAIL = ''
 
@@ -146,6 +147,11 @@ def fetch_groups():
 
 # Fetch subgroups of a top level group git data by group id
 def fetch_subgroups(id):
+
+    # Subgroups supported only for gitlab - return empty list for non gitlab git provider
+    if (PROVIDER != 'gitlab' or PROVIDER != 'gitlab-self-hosted'):
+        return []
+
     data = dict()
     subgroups = get_subgroups(id)
 
@@ -247,13 +253,40 @@ def find_config_by_key(key):
             return entry[key]
     return False
 
+# Find git provider return default if not defined
+def find_provider():
+    provider = find_config_by_key('sindria.provider')
+    if (not provider):
+        provider = 'gitlab-self-hosted'
+    return provider
+
+# Find git provider base url
+def find_url():
+    url = find_config_by_key('sindria.url')
+    if (not url):
+        if (PROVIDER == 'bitbucket'):
+            url = 'https://bitbucket.org'
+        elif (PROVIDER == 'github'):
+            url = 'https://github.com'
+        elif (PROVIDER == 'gitlab'):
+            url = 'https://gitlab.com'
+        else:
+            print('Error during loading git sindria config, git config --global sindria.url <url>')
+            sys.exit(2)
+    return url
+
 # Clone multi projects by top level group slug path or username
 def clone(target):
 
     if (target == USER):
-        user = fetch_user_by_username(USER)
-        id = user['id']
-        projects = fetch_projects_group_or_user(id, user['username'])
+        # TODO: implement support personal projects for non gitlab git provider
+        if (PROVIDER != 'gitlab' or PROVIDER != 'gitlab-self-hosted'):
+            print('Personal projects not supported for ' + PROVIDER + ' git provider')
+            sys.exit(0)
+        else:
+            user = fetch_user_by_username(USER)
+            id = user['id']
+            projects = fetch_projects_group_or_user(id, user['username'])
     else:
         group = find_group_by_slug(target)
 
@@ -331,19 +364,18 @@ if __name__ == '__main__':
         print('Error during loading git sindria config, git config --global sindria.path <path>')
         sys.exit(2)
 
-    if (not find_config_by_key('sindria.url')):
-        print('Error during loading git sindria config, git config --global sindria.url <url>')
-        sys.exit(2)
-
     if (not find_config_by_key('sindria.token')):
         print('Error during loading git sindria config, git config --global sindria.token <token>')
         sys.exit(2)
 
-    BASE_PATH = find_config_by_key('sindria.path')
-    URL = find_config_by_key('sindria.url')
-    TOKEN = find_config_by_key('sindria.token')
     USER = find_config_by_key('user.name')
     EMAIL = find_config_by_key('user.email')
+
+    PROVIDER = find_provider()
+    URL = find_url()
+
+    BASE_PATH = find_config_by_key('sindria.path')
+    TOKEN = find_config_by_key('sindria.token')
 
     command = sys.argv[1]
     target = sys.argv[2]
