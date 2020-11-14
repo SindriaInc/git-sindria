@@ -50,6 +50,10 @@ If you don't have a token goto under your gitlab profile and generate personal a
 - Create repo bootstrap framework
 - Create repo bootstrap sindria template with CI/CD
 - Gitlab admin
+- Export issues
+- Setup mirror
+- Setup webhook integration
+- Other git provider support (Bitbucket, GitHub)
 
 ## License
 
