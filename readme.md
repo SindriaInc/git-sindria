@@ -1,6 +1,6 @@
 # Git Sindria
 
-Git extension client for gitlab.
+Git extension client for gitlab, bitbucket and github.
 
 ## Requirements
 
@@ -34,13 +34,18 @@ Make sure you have `make` package installed.
 If you don't have a token goto under your gitlab profile and generate personal access token.
 
 - Setup token: `git config --global sindria.token <token>`
-- Setup gitlab url: `git config --global sindria.url <url>`
 - Setup projects path: `git config --global sindria.path <path>`
+
+### Optional
+
+- Setup provider: `git config --global sindria.provider <provider>`
+- Setup url: `git config --global sindria.url <url>`
 
 ## Usage
 
 - Multi clone by top level group or username: `git sindria clone <group-or-username>`
 - Clear local cached repos by top level group or username: `git sindria clear <group-or-username>`
+- Git log advanced: `git sindria log`
 
 ## Coming soon
 

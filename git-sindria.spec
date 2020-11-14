@@ -1,13 +1,13 @@
 Name:       git-sindria
 Version:    1.0.0
 Release:    1
-Summary:    Git extension client for gitlab
+Summary:    Git extension client for gitlab, bitbucket and github
 License:    GPLv2
 BuildArch:  noarch
 Requires:   python3-requests, python3-pyyaml
 
 %description
-Git extension client for gitlab.
+Git extension client for gitlab, bitbucket and github.
 
 %prep
 # we have no source, so nothing here
