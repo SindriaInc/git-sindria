@@ -10,7 +10,7 @@ Git extension client for gitlab, bitbucket and github.
 
 ## Install RedHat/Fedora/CentOS
 
-- Download rpm package: [git-sindria-1.0.0-1.noarch.rpm](https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-1.0.0-1.noarch.rpm)
+- Download rpm package: [git-sindria-1.1.0-1.noarch.rpm](https://raw.githubusercontent.com/SindriaInc/git-sindria/master/rpms/git-sindria-1.1.0-1.noarch.rpm)
 - Install with package manager: `sudo dnf install git-sindria-1.0.0-1.noarch.rpm`
 
 ## Uninstall RedHat/Fedora/CentOS
