@@ -347,12 +347,21 @@ def clear(target):
     print('task complete')
     sys.exit(0)
 
-def main(command, target):
+# Simplify git log advanced command
+def log():
+    return subprocess.call(['git', 'log', '--oneline', '--decorate', '--all', '--graph'])
+
+def main(command):
+    target = None
 
     if (command == 'clone'):
+        target = sys.argv[2]
         clone(target)
     elif (command == 'clear'):
+        target = sys.argv[2]
         clear(target)
+    elif (command == 'log'):
+        log()
     else:
         print('command not found')
         sys.exit(0)
@@ -378,5 +387,4 @@ if __name__ == '__main__':
     TOKEN = find_config_by_key('sindria.token')
 
     command = sys.argv[1]
-    target = sys.argv[2]
-    main(command, target)
+    main(command)
