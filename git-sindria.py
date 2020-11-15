@@ -351,8 +351,14 @@ def clear(target):
 def log():
     return subprocess.call(['git', 'log', '--oneline', '--decorate', '--all', '--graph'])
 
+# Simplify release using git tag command
+def release(release):
+    subprocess.call(['git', 'tag', '-a', release])
+    subprocess.call(['git', 'push', 'origin', release])
+    print('task complete')
+    sys.exit(0)
+
 def main(command):
-    target = None
 
     if (command == 'clone'):
         target = sys.argv[2]
@@ -362,6 +368,9 @@ def main(command):
         clear(target)
     elif (command == 'log'):
         log()
+    elif (command == 'release'):
+        target = sys.argv[2]
+        release(target)
     else:
         print('command not found')
         sys.exit(0)

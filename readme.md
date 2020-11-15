@@ -48,6 +48,7 @@ If you don't have a token goto under your gitlab profile and generate personal a
 - Multi clone by top level group or username: `git sindria clone <group-or-username>`
 - Clear local cached repos by top level group or username: `git sindria clear <group-or-username>`
 - Git log advanced: `git sindria log`
+- Create new release: `git sindria release <version>`
 
 ## Coming soon
 
