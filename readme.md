@@ -2,6 +2,8 @@
 
 Git extension client for gitlab, bitbucket and github.
 
+[![asciicast](https://asciinema.org/a/x3jXmG0PJffXqvR3TUDgxC6N5.svg)](https://asciinema.org/a/x3jXmG0PJffXqvR3TUDgxC6N5)
+
 ## Requirements
 
 - Python >= 3.8
