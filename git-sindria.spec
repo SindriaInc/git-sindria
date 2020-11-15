@@ -1,5 +1,5 @@
 Name:       git-sindria
-Version:    1.0.0
+Version:    1.1.0
 Release:    1
 Summary:    Git extension client for gitlab, bitbucket and github
 License:    GPLv2
