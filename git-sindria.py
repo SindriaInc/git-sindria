@@ -278,8 +278,6 @@ def find_url():
 
 # Clone multi projects by top level group slug path or username
 def clone(target, options):
-    print(target)
-    print(options)
 
     if (target == USER):
         # TODO: implement support personal projects for non gitlab git provider
@@ -374,6 +372,7 @@ def help_clone():
     print('Available options:')
     print('')
     print('-p, --partial\t\tPartial multi clone skipping already cached repos')
+    print('-f, --force\t\tForce clear already cached repos before multi clone')
     print('')
     print('Examples:')
     print('')
