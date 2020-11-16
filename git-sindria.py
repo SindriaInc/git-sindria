@@ -3,6 +3,7 @@
 import sys
 import os
 import subprocess
+import argparse
 import requests
 import json
 import yaml
@@ -358,18 +359,55 @@ def release(release):
     print('task complete')
     sys.exit(0)
 
+# Help message usage
+def help():
+    print('Usage: git sindria <command> <target> <options>')
+    print('')
+    print('-h, --help\t\tPrint this message')
+    print('')
+    print('Available commands:')
+    print('')
+    print('clone\t\tMulti clone by top level group or username')
+    print('clear\t\tClear local cached repos by top level group or username')
+    print('log\t\tGit log advanced')
+    print('release\t\tCreate new release')
+    print('')
+    print('Examples:')
+    print('')
+    print('git sindria clone devops')
+    print('git sindria clear devops')
+    print('git sindria log')
+    print('git sindria release 1.0.0')
+
 def main(command):
 
-    if (command == 'clone'):
-        target = sys.argv[2]
+    if (command == '-h' or command == '--help'):
+        help()
+    elif (command == 'clone'):
+        if len(sys.argv) > 2:
+            target = sys.argv[2]
+        else:
+            help()
+            sys.exit(1)
+
         clone(target)
     elif (command == 'clear'):
-        target = sys.argv[2]
+        if len(sys.argv) > 2:
+            target = sys.argv[2]
+        else:
+            help()
+            sys.exit(1)
+
         clear(target)
     elif (command == 'log'):
         log()
     elif (command == 'release'):
-        target = sys.argv[2]
+        if len(sys.argv) > 2:
+            target = sys.argv[2]
+        else:
+            help()
+            sys.exit(1)
+
         release(target)
     else:
         print('command not found')
@@ -395,5 +433,10 @@ if __name__ == '__main__':
     BASE_PATH = find_config_by_key('sindria.path')
     TOKEN = find_config_by_key('sindria.token')
 
-    command = sys.argv[1]
+    if len(sys.argv) > 1:
+        command = sys.argv[1]
+    else:
+        help()
+        sys.exit(1)
+
     main(command)
