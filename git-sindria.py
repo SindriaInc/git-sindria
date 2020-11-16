@@ -150,8 +150,8 @@ def fetch_groups():
 def fetch_subgroups(id):
 
     # Subgroups supported only for gitlab - return empty list for non gitlab git provider
-    if (PROVIDER != 'gitlab' or PROVIDER != 'gitlab-self-hosted'):
-        return []
+    # if (PROVIDER != 'gitlab' or PROVIDER != 'gitlab-self-hosted'):
+    #     return []
 
     data = dict()
     subgroups = get_subgroups(id)
@@ -277,7 +277,9 @@ def find_url():
     return url
 
 # Clone multi projects by top level group slug path or username
-def clone(target):
+def clone(target, options):
+    print(target)
+    print(options)
 
     if (target == USER):
         # TODO: implement support personal projects for non gitlab git provider
@@ -352,6 +354,10 @@ def clear(target):
 def log():
     return subprocess.call(['git', 'log', '--oneline', '--decorate', '--all', '--graph'])
 
+# Simplify edit author last commit
+def author(username, email):
+    return subprocess.call(['git', 'commit', '--amend', '--author="'+username+' <'+email+'>"', '--no-edit'])
+
 # Simplify release using git tag command
 def release(release):
     subprocess.call(['git', 'tag', '-a', release])
@@ -359,7 +365,22 @@ def release(release):
     print('task complete')
     sys.exit(0)
 
-# Help message usage
+# Help message usage clone command
+def help_clone():
+    print('Usage: git sindria clone <target> <options>')
+    print('')
+    print('-h, --help\t\tPrint this message')
+    print('')
+    print('Available options:')
+    print('')
+    print('-p, --partial\t\tPartial multi clone skipping already cached repos')
+    print('')
+    print('Examples:')
+    print('')
+    print('git sindria clone devops')
+    print('git sindria clone devops -p')
+
+# Help message usage global
 def help():
     print('Usage: git sindria <command> <target> <options>')
     print('')
@@ -386,11 +407,19 @@ def main(command):
     elif (command == 'clone'):
         if len(sys.argv) > 2:
             target = sys.argv[2]
+            if (target == '-h' or target == '--help'):
+                help_clone()
+                sys.exit(1)
         else:
-            help()
+            help_clone()
             sys.exit(1)
 
-        clone(target)
+        if len(sys.argv) > 3:
+            options = sys.argv[3]
+        else:
+            options = None
+
+        clone(target, options)
     elif (command == 'clear'):
         if len(sys.argv) > 2:
             target = sys.argv[2]
