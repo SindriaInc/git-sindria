@@ -281,7 +281,10 @@ def clone(target, options):
 
     if (target == USER):
         # TODO: implement support personal projects for non gitlab git provider
-        if (PROVIDER != 'gitlab' or PROVIDER != 'gitlab-self-hosted'):
+        if (PROVIDER != 'gitlab-self-hosted'):
+            print('Personal projects not supported for ' + PROVIDER + ' git provider')
+            sys.exit(0)
+        elif (PROVIDER != 'gitlab'):
             print('Personal projects not supported for ' + PROVIDER + ' git provider')
             sys.exit(0)
         else:
