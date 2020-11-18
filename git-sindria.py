@@ -488,6 +488,8 @@ if __name__ == '__main__':
     BASE_PATH = find_config_by_key('sindria.path')
     TOKEN = find_config_by_key('sindria.token')
 
+    # TODO: Add support for double mode (https or ssh) via git config with global env
+
     # Check if git provider is suppported
     available_providers = ['gitlab-self-hosted', 'gitlab', 'bitbucket']
     if (not PROVIDER in available_providers):
