@@ -285,7 +285,7 @@ def clone(target, options):
         if (not PROVIDER in support_providers):
             print('Personal projects not supported for ' + PROVIDER + ' git provider')
             sys.exit(0)
-        
+
         user = fetch_user_by_username(USER)
         id = user['id']
         projects = fetch_projects_group_or_user(id, user['username'])
@@ -305,11 +305,18 @@ def clone(target, options):
 
     for k,project in projects.items():
 
-        if os.path.exists(BASE_PATH + '/' + target + '/' + project['path']):
-            print('One or more project already cached in this path, please destroy local repo cached before clone')
-            sys.exit(1)
+        if (options == '-p'):
+            if os.path.exists(BASE_PATH + '/' + target + '/' + project['path']):
+                print('Project '+ project['path']+ ' already cached in this path, skip')
+            else:
+                subprocess.call(['git', 'clone', project['ssh'], BASE_PATH + '/' + target + '/' + project['path']])
+        else:
 
-        subprocess.call(['git', 'clone', project['ssh'], BASE_PATH + '/' + target + '/' + project['path']])
+            if os.path.exists(BASE_PATH + '/' + target + '/' + project['path']):
+                print('One or more project already cached in this path, please destroy local repo cached before clone')
+                sys.exit(1)
+
+            subprocess.call(['git', 'clone', project['ssh'], BASE_PATH + '/' + target + '/' + project['path']])
 
     if (target == USER):
         print('No support subgroups for personal projects, done')
@@ -330,11 +337,18 @@ def clone(target, options):
 
         for k,project_group in projects_group.items():
 
-            if os.path.exists(BASE_PATH + '/' + target + '/' + subgroup['path'] + '/' + project_group['path']):
-                print('One or more project already cached in this path, please destroy local repo cached before clone')
-                sys.exit(1)
+            if (options == '-p'):
+                if os.path.exists(BASE_PATH + '/' + target + '/' + subgroup['path'] + '/' + project_group['path']):
+                    print('Subproject '+ project_group['path'] + ' already cached in this path, skip')
+                else:
+                    subprocess.call(['git', 'clone', project_group['ssh'], BASE_PATH + '/' + target + '/' + subgroup['path'] + '/' + project_group['path']])
+            else:
 
-            subprocess.call(['git', 'clone', project_group['ssh'], BASE_PATH + '/' + target + '/' + subgroup['path'] + '/' + project_group['path']])
+                if os.path.exists(BASE_PATH + '/' + target + '/' + subgroup['path'] + '/' + project_group['path']):
+                    print('One or more subproject already cached in this path, please destroy local repo cached before clone')
+                    sys.exit(1)
+
+                subprocess.call(['git', 'clone', project_group['ssh'], BASE_PATH + '/' + target + '/' + subgroup['path'] + '/' + project_group['path']])
 
     print('task complete')
     sys.exit(0)
@@ -400,6 +414,7 @@ def help():
     print('git sindria log')
     print('git sindria release 1.0.0')
 
+# Main
 def main(command):
 
     if (command == '-h' or command == '--help'):
@@ -442,7 +457,7 @@ def main(command):
         print('command not found')
         sys.exit(0)
 
-
+# Execute
 if __name__ == '__main__':
 
     if (not find_config_by_key('sindria.path')):
