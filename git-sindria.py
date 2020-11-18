@@ -370,6 +370,8 @@ def clear(target):
         print('No match ' + target + ', please check if exist and try again')
         sys.exit(1)
 
+    # TODO: ensure that all local cached repos are committed before clear
+
     subprocess.call(['rm', '-Rf', BASE_PATH + '/' + target])
     print('task complete')
 
