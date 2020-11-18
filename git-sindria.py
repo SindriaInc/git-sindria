@@ -279,6 +279,7 @@ def find_url():
 # Clone multi projects by top level group slug path or username
 def clone(target, options):
 
+    # Validate options
     available_options = [None, '-p', '--partial', '-f', '--force']
     if (not options in available_options):
         print('Option unavailable\n')
@@ -402,6 +403,7 @@ def help_clone():
     print('')
     print('git sindria clone devops')
     print('git sindria clone devops -p')
+    print('git sindria clone devops -f')
 
 # Help message usage global
 def help():
@@ -486,6 +488,7 @@ if __name__ == '__main__':
     BASE_PATH = find_config_by_key('sindria.path')
     TOKEN = find_config_by_key('sindria.token')
 
+    # Check if git provider is suppported
     available_providers = ['gitlab-self-hosted', 'gitlab', 'bitbucket']
     if (not PROVIDER in available_providers):
         print('Git provider not supported')
