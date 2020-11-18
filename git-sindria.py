@@ -279,6 +279,12 @@ def find_url():
 # Clone multi projects by top level group slug path or username
 def clone(target, options):
 
+    available_options = [None, '-p', '--partial', '-f', '--force']
+    if (not options in available_options):
+        print('Option unavailable\n')
+        help_clone()
+        sys.exit(1)
+
     if (target == USER):
         # TODO: implement support personal projects for non gitlab git provider
         support_providers = ['gitlab-self-hosted', 'gitlab']
@@ -298,6 +304,10 @@ def clone(target, options):
 
         id = group['id']
         projects = fetch_projects_group_or_user(id)
+
+    # Clear already cached target with -f or --force option
+    if (options == '-f' or options == '--force'):
+        clear(target)
 
     # Create directories if not exists
     if not os.path.exists(BASE_PATH + '/' + target):
@@ -361,7 +371,6 @@ def clear(target):
 
     subprocess.call(['rm', '-Rf', BASE_PATH + '/' + target])
     print('task complete')
-    sys.exit(0)
 
 # Simplify git log advanced command
 def log():
