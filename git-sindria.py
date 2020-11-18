@@ -281,16 +281,14 @@ def clone(target, options):
 
     if (target == USER):
         # TODO: implement support personal projects for non gitlab git provider
-        if (PROVIDER != 'gitlab-self-hosted'):
+        support_providers = ['gitlab-self-hosted', 'gitlab']
+        if (not PROVIDER in support_providers):
             print('Personal projects not supported for ' + PROVIDER + ' git provider')
             sys.exit(0)
-        elif (PROVIDER != 'gitlab'):
-            print('Personal projects not supported for ' + PROVIDER + ' git provider')
-            sys.exit(0)
-        else:
-            user = fetch_user_by_username(USER)
-            id = user['id']
-            projects = fetch_projects_group_or_user(id, user['username'])
+        
+        user = fetch_user_by_username(USER)
+        id = user['id']
+        projects = fetch_projects_group_or_user(id, user['username'])
     else:
         group = find_group_by_slug(target)
 
@@ -463,6 +461,11 @@ if __name__ == '__main__':
 
     BASE_PATH = find_config_by_key('sindria.path')
     TOKEN = find_config_by_key('sindria.token')
+
+    available_providers = ['gitlab-self-hosted', 'gitlab', 'bitbucket']
+    if (not PROVIDER in available_providers):
+        print('Git provider not supported')
+        sys.exit(2)
 
     if len(sys.argv) > 1:
         command = sys.argv[1]
